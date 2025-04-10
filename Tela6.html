@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Template Padrão - JL Library</title>
+    <title>Acervo - JL Library</title>
     <style>
         /* ===============================
        Paleta de Cores:
          C1: #FFFFFF (Branco)
-         C2: #EFEFEF (Cinza)
+         C2: #EFEFEF (Cinza Claro)
          C3: #1F2932 (Azul Marinho)
        =============================== */
 
@@ -26,35 +26,26 @@
             color: #333;
         }
 
-        /* ===============================
-       Layout Geral
-       =============================== */
+        /* Layout geral: topbar + content-area */
         .container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            /* ocupa a tela toda */
             width: 100vw;
             overflow: hidden;
-            /* evita barra de rolagem global, se preferir */
         }
 
-        /* ===============================
-       Barra Superior (Topbar)
-       =============================== */
+        /* Barra Superior (Topbar) */
         .topbar {
             flex: 0 0 70px;
-            /* altura fixa da topbar */
             background-color: #1F2932;
             /* C3 */
             color: #FFF;
-            /* texto branco */
             display: flex;
             align-items: center;
             padding: 0 1rem;
         }
 
-        /* Ícone ou logo à esquerda */
         .logo-area {
             display: flex;
             align-items: center;
@@ -65,40 +56,25 @@
             width: 45px;
             height: 45px;
             background-color: #ccc;
-            /* apenas placeholder */
             border-radius: 4px;
             margin-right: 0.5rem;
         }
 
-        .logo-area h1 {
+        .logo-area span {
             font-size: 1.2rem;
             font-weight: bold;
             color: #FFFFFF;
-            /* texto no topbar */
         }
 
-        /* Campo de busca central */
         .search-bar {
             flex: 1;
             display: flex;
             align-items: center;
             background-color: #FFFFFF;
-            /* fundo branco dentro do topbar */
+            /* campo de busca branco */
             border-radius: 30px;
             padding: 0 1rem;
             max-width: 600px;
-            /* limite de largura para o campo, se quiser */
-        }
-
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            height: 35px;
-            /* ajusta a altura interna */
-            font-size: 1rem;
-            color: #333;
-            background-color: transparent;
         }
 
         .search-icon {
@@ -109,27 +85,32 @@
             margin-right: 0.5rem;
         }
 
-        /* Nome ou ícone do usuário à direita */
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            height: 35px;
+            font-size: 1rem;
+            color: #333;
+            background-color: transparent;
+        }
+
         .user-info {
             margin-left: 2rem;
             font-size: 1rem;
             color: #FFFFFF;
         }
 
-        /* ===============================
-       Conteúdo principal
-       =============================== */
+        /* Área de conteúdo (sidebar + main) */
         .content-area {
             flex: 1;
             display: flex;
             overflow: hidden;
-            /* para gerenciar rolagem só no interior */
         }
 
         /* Barra lateral (Sidebar) */
         .sidebar {
             width: 200px;
-            /* Largura fixa da sidebar */
             background-color: #EFEFEF;
             /* C2 */
             display: flex;
@@ -161,7 +142,6 @@
             background-color: #e2e2e2;
         }
 
-        /* Ícone placeholder no menu */
         .menu-icon {
             width: 24px;
             height: 24px;
@@ -170,42 +150,136 @@
             margin-right: 0.5rem;
         }
 
-        /* Área principal (branca) */
+        /* Main-area (onde ficam as Sugestões de Leitura) */
         .main-area {
             flex: 1;
             background-color: #FFFFFF;
             /* C1 */
             overflow-y: auto;
-            /* rolagem vertical se o conteúdo ultrapassar a altura */
             padding: 2rem;
+            position: relative;
+            /* para setas de navegação absoluta */
         }
 
-        /* Exemplo de título ou subtítulo no conteúdo */
         .main-area h2 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* ===============================
-       Responsividade
-       =============================== */
+        /* Contêiner de Livros (rolagem horizontal) */
+        .book-wrapper {
+            position: relative;
+        }
+
+        /* Seta Esquerda e Direita */
+        .arrow-left,
+        .arrow-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #1F2932;
+            /* C3 */
+            border-radius: 50%;
+            color: #FFF;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+
+        .arrow-left:hover,
+        .arrow-right:hover {
+            opacity: 1;
+        }
+
+        .arrow-left {
+            left: -20px;
+            /* fica um pouco antes do contêiner */
+        }
+
+        .arrow-right {
+            right: -20px;
+            /* fica um pouco depois do contêiner */
+        }
+
+        /* Lista de Livros em linha horizontal */
+        .book-list {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .book-card {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+
+        .book-card img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            object-fit: cover;
+        }
+
+        .book-title {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .book-card:hover .book-title {
+            color: #1F2932;
+        }
+
+        /* Barra de rolagem customizada (opcional) */
+        .book-list::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .book-list::-webkit-scrollbar-track {
+            background: #eee;
+        }
+
+        .book-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        /* Responsividade */
         @media (max-width: 768px) {
             .topbar {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-wrap: wrap;
                 height: auto;
                 padding: 1rem;
             }
 
+            .logo-area {
+                margin-bottom: 0.5rem;
+            }
+
             .search-bar {
-                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
                 width: 100%;
                 max-width: unset;
             }
 
             .user-info {
                 margin-left: 0;
-                margin-top: 0.5rem;
             }
 
             .content-area {
@@ -229,10 +303,10 @@
                 margin: 0 1rem 0 0;
             }
 
-            .main-area {
-                flex: none;
-                width: 100%;
-                padding: 1rem;
+            /* Esconder as setas no mobile (opcional) */
+            .arrow-left,
+            .arrow-right {
+                display: none;
             }
         }
     </style>
@@ -240,29 +314,28 @@
 
 <body>
     <div id="app" class="container">
+
         <!-- Barra Superior -->
         <header class="topbar">
-            <!-- Logo ou Ícone do Site -->
+            <!-- Logo -->
             <div class="logo-area">
                 <div class="logo-icon"></div>
-                <h1>JL Library</h1>
+                <span>JL Library</span>
             </div>
-
             <!-- Campo de Busca -->
             <div class="search-bar">
                 <div class="search-icon"></div>
                 <input type="text" placeholder="Digite o nome de livro/autor" v-model="busca" @input="fazerBusca" />
             </div>
-
-            <!-- Nome do Usuário ou Ícone de Perfil -->
+            <!-- Nome do Usuário -->
             <div class="user-info">
                 {{ nomeUsuario }}
             </div>
         </header>
 
-        <!-- Conteúdo Principal -->
+        <!-- Área de Conteúdo (Sidebar + Main) -->
         <div class="content-area">
-            <!-- Barra Lateral -->
+            <!-- Sidebar -->
             <aside class="sidebar">
                 <nav>
                     <ul>
@@ -294,11 +367,26 @@
                 </nav>
             </aside>
 
-            <!-- Área Branca de Conteúdo -->
+            <!-- Main Area -->
             <main class="main-area">
-                <!-- Exemplo de conteúdo -->
-                <h2>Bem-vindo ao Acervo</h2>
-                <p>Aqui é a área principal do seu site, com fundo branco (C1). Você pode inserir o que precisar.</p>
+                <h2>Sugestões De Leitura</h2>
+
+                <!-- Container do Book List + setas de navegação -->
+                <div class="book-wrapper">
+                    <!-- Seta Esquerda -->
+                    <div class="arrow-left" @click="scrollLeft">&#10094;</div>
+                    <!-- Seta Direita -->
+                    <div class="arrow-right" @click="scrollRight">&#10095;</div>
+
+                    <!-- Lista de Livros -->
+                    <div class="book-list" ref="bookList">
+                        <div class="book-card" v-for="(livro, index) in livrosFiltrados" :key="index"
+                            @click="abrirLivro(livro)">
+                            <img :src="livro.capa" :alt="livro.titulo" />
+                            <div class="book-title">{{ livro.titulo }}</div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -311,13 +399,71 @@
             data() {
                 return {
                     nomeUsuario: 'Nome do Usuário',
-                    busca: ''
+                    busca: '',
+                    // Ajuste as capas para apontar para seus arquivos locais:
+                    livros: [
+                        {
+                            titulo: 'Java Como Programar',
+                            capa: './images/java_como_programar.jpg'
+                        },
+                        {
+                            titulo: 'Planejamento de Marketing Digital',
+                            capa: './images/marketing_digital.jpg'
+                        },
+                        {
+                            titulo: 'Fórmulas e Funções do Excel',
+                            capa: './images/excel_funcoes.jpg'
+                        },
+                        {
+                            titulo: 'C# Como Programar',
+                            capa: './images/csharp_como_programar.jpg'
+                        },
+                        {
+                            titulo: 'Treinamento Em Linguagem C',
+                            capa: './images/treinamento_c.jpg'
+                        },
+                        {
+                            titulo: 'Administração De Marketing',
+                            capa: './images/admin_marketing.jpg'
+                        },
+                        {
+                            titulo: 'Python Essencial',
+                            capa: './images/python_essencial.jpg'
+                        },
+                        {
+                            titulo: 'Ciência Da Computação',
+                            capa: './images/ciencia_computacao.jpg'
+                        }
+                        // ... e assim por diante
+                    ]
+                }
+            },
+            computed: {
+                livrosFiltrados() {
+                    if (!this.busca) return this.livros;
+                    const buscaLower = this.busca.toLowerCase();
+                    return this.livros.filter(l =>
+                        l.titulo.toLowerCase().includes(buscaLower)
+                    );
                 }
             },
             methods: {
                 fazerBusca() {
-                    // Lógica para lidar com a busca
-                    console.log('Buscando por:', this.busca);
+                    // Lógica extra para busca, se precisar
+                    console.log('Buscando:', this.busca);
+                },
+                abrirLivro(livro) {
+                    alert(`Abrindo detalhes do livro: ${livro.titulo}`);
+                },
+                scrollLeft() {
+                    // Rola a lista de livros 300px para a esquerda
+                    const container = this.$refs.bookList;
+                    container.scrollBy({ left: -300, behavior: 'smooth' });
+                },
+                scrollRight() {
+                    // Rola 300px para a direita
+                    const container = this.$refs.bookList;
+                    container.scrollBy({ left: 300, behavior: 'smooth' });
                 }
             }
         });
