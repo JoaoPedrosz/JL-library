@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Template Padrão - JL Library</title>
+    <style>
+        /* ===============================
+       Paleta de Cores:
+         C1: #FFFFFF (Branco)
+         C2: #EFEFEF (Cinza)
+         C3: #1F2932 (Azul Marinho)
+       =============================== */
+
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            /* C1 */
+            color: #333;
+        }
+
+        /* ===============================
+       Layout Geral
+       =============================== */
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            /* ocupa a tela toda */
+            width: 100vw;
+            overflow: hidden;
+            /* evita barra de rolagem global, se preferir */
+        }
+
+        /* ===============================
+       Barra Superior (Topbar)
+       =============================== */
+        .topbar {
+            flex: 0 0 70px;
+            /* altura fixa da topbar */
+            background-color: #1F2932;
+            /* C3 */
+            color: #FFF;
+            /* texto branco */
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        /* Ícone ou logo à esquerda */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #ccc;
+            /* apenas placeholder */
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        .logo-area h1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            /* texto no topbar */
+        }
+
+        /* Campo de busca central */
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #FFFFFF;
+            /* fundo branco dentro do topbar */
+            border-radius: 30px;
+            padding: 0 1rem;
+            max-width: 600px;
+            /* limite de largura para o campo, se quiser */
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            height: 35px;
+            /* ajusta a altura interna */
+            font-size: 1rem;
+            color: #333;
+            background-color: transparent;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        /* Nome ou ícone do usuário à direita */
+        .user-info {
+            margin-left: 2rem;
+            font-size: 1rem;
+            color: #FFFFFF;
+        }
+
+        /* ===============================
+       Conteúdo principal
+       =============================== */
+        .content-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            /* para gerenciar rolagem só no interior */
+        }
+
+        /* Barra lateral (Sidebar) */
+        .sidebar {
+            width: 200px;
+            /* Largura fixa da sidebar */
+            background-color: #EFEFEF;
+            /* C2 */
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            margin-top: 1rem;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar nav ul li a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: #e2e2e2;
+        }
+
+        /* Ícone placeholder no menu */
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+        }
+
+        /* Área principal (branca) */
+        .main-area {
+            flex: 1;
+            background-color: #FFFFFF;
+            /* C1 */
+            overflow-y: auto;
+            /* rolagem vertical se o conteúdo ultrapassar a altura */
+            padding: 2rem;
+        }
+
+        /* Exemplo de título ou subtítulo no conteúdo */
+        .main-area h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===============================
+       Responsividade
+       =============================== */
+        @media (max-width: 768px) {
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+                padding: 1rem;
+            }
+
+            .search-bar {
+                margin-top: 0.5rem;
+                width: 100%;
+                max-width: unset;
+            }
+
+            .user-info {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            .content-area {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                overflow-x: auto;
+            }
+
+            .sidebar nav ul {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .sidebar nav ul li {
+                margin: 0 1rem 0 0;
+            }
+
+            .main-area {
+                flex: none;
+                width: 100%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <!-- Barra Superior -->
+        <header class="topbar">
+            <!-- Logo ou Ícone do Site -->
+            <div class="logo-area">
+                <div class="logo-icon"></div>
+                <h1>JL Library</h1>
+            </div>
+
+            <!-- Campo de Busca -->
+            <div class="search-bar">
+                <div class="search-icon"></div>
+                <input type="text" placeholder="Digite o nome de livro/autor" v-model="busca" @input="fazerBusca" />
+            </div>
+
+            <!-- Nome do Usuário ou Ícone de Perfil -->
+            <div class="user-info">
+                {{ nomeUsuario }}
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <div class="content-area">
+            <!-- Barra Lateral -->
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <div class="menu-icon"></div>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-icon"></div>
+                                <span>Acervo</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-icon"></div>
+                                <span>Minhas Notas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-icon"></div>
+                                <span>Minhas Listas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Área Branca de Conteúdo -->
+            <main class="main-area">
+                <!-- Exemplo de conteúdo -->
+                <h2>Bem-vindo ao Acervo</h2>
+                <p>Aqui é a área principal do seu site, com fundo branco (C1). Você pode inserir o que precisar.</p>
+            </main>
+        </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    nomeUsuario: 'Nome do Usuário',
+                    busca: ''
+                }
+            },
+            methods: {
+                fazerBusca() {
+                    // Lógica para lidar com a busca
+                    console.log('Buscando por:', this.busca);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
