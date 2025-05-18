@@ -1,472 +1,363 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Acervo - JL Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biblioteca - Sugestões de Leitura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <style>
-        /* ===============================
-       Paleta de Cores:
-         C1: #FFFFFF (Branco)
-         C2: #EFEFEF (Cinza Claro)
-         C3: #1F2932 (Azul Marinho)
-       =============================== */
-
-        /* Reset básico */
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Space Grotesk', Arial, sans-serif;
+            background: #f4f4f4;
+            color: #111;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-            /* C1 */
-            color: #333;
-        }
-
-        /* Layout geral: topbar + content-area */
         .container {
             display: flex;
-            flex-direction: column;
             height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            background: #f4f4f4;
         }
 
-        /* Barra Superior (Topbar) */
-        .topbar {
-            flex: 0 0 70px;
-            background-color: #1F2932;
-            /* C3 */
-            color: #FFF;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            margin-right: 2rem;
-        }
-
-        .logo-icon {
-            width: 45px;
-            height: 45px;
-            background-color: #ccc;
-            border-radius: 4px;
-            margin-right: 0.5rem;
-        }
-
-        .logo-area span {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #FFFFFF;
-        }
-
-        .search-bar {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            background-color: #FFFFFF;
-            /* campo de busca branco */
-            border-radius: 30px;
-            padding: 0 1rem;
-            max-width: 600px;
-        }
-
-        .search-icon {
-            width: 24px;
-            height: 24px;
-            background-color: #ccc;
-            border-radius: 4px;
-            margin-right: 0.5rem;
-        }
-
-        .search-bar input {
-            flex: 1;
-            border: none;
-            outline: none;
-            height: 35px;
-            font-size: 1rem;
-            color: #333;
-            background-color: transparent;
-        }
-
-        .user-info {
-            margin-left: 2rem;
-            font-size: 1rem;
-            color: #FFFFFF;
-        }
-
-        /* Área de conteúdo (sidebar + main) */
-        .content-area {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        /* Barra lateral (Sidebar) */
+        /* Sidebar */
         .sidebar {
             width: 200px;
-            background-color: #EFEFEF;
-            /* C2 */
+            background: #eeeeee;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            padding: 1rem;
-            border-right: 1px solid #ddd;
-        }
-
-        .sidebar nav ul {
-            list-style-type: none;
-            margin-top: 1rem;
-        }
-
-        .sidebar nav ul li {
-            margin-bottom: 1rem;
-        }
-
-        .sidebar nav ul li a {
-            text-decoration: none;
-            color: #333;
-            display: flex;
             align-items: center;
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            transition: background-color 0.2s;
+            border-right: 1px solid #e0e0e0;
         }
 
-        .sidebar nav ul li a:hover {
-            background-color: #e2e2e2;
-        }
-
-        .menu-icon {
-            width: 24px;
-            height: 24px;
-            background-color: #ccc;
-            border-radius: 4px;
-            margin-right: 0.5rem;
-        }
-
-        /* Main-area (onde ficam as Sugestões de Leitura) */
-        .main-area {
-            flex: 1;
-            background-color: #FFFFFF;
-            /* C1 */
-            overflow-y: auto;
-            padding: 2rem;
-            position: relative;
-            /* para setas de navegação absoluta */
-        }
-
-        .main-area h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Contêiner de Livros (rolagem horizontal) */
-        .book-wrapper {
-            position: relative;
-        }
-
-        /* Seta Esquerda e Direita */
-        .arrow-left,
-        .arrow-right {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: #1F2932;
-            /* C3 */
-            border-radius: 50%;
-            color: #FFF;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .sidebar-logo {
+            margin: 32px 0 16px 0;
+            width: 90px;
+            height: 90px;
+            background: #262c37;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-            z-index: 10;
         }
 
-        .arrow-left:hover,
-        .arrow-right:hover {
-            opacity: 1;
+        .sidebar-logo svg {
+            width: 54px;
+            height: 54px;
+            color: #fff;
         }
 
-        .arrow-left {
-            left: -20px;
-            /* fica um pouco antes do contêiner */
+        .sidebar-title {
+            font-size: 18px;
+            margin-bottom: 36px;
+            color: #333;
+            font-weight: 500;
         }
 
-        .arrow-right {
-            right: -20px;
-            /* fica um pouco depois do contêiner */
+        .sidebar-menu {
+            width: 100%;
+            list-style: none;
+            padding: 0 0 0 24px;
+            margin: 0;
         }
 
-        /* Lista de Livros em linha horizontal */
-        .book-list {
+        .sidebar-menu li {
+            margin-bottom: 18px;
             display: flex;
-            gap: 1.5rem;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding-bottom: 1rem;
+            align-items: center;
+            cursor: pointer;
+            font-size: 15px;
+            color: #222;
+            transition: color 0.2s;
         }
 
-        .book-card {
-            width: 120px;
+        .sidebar-menu li.active,
+        .sidebar-menu li:hover {
+            color: #3751fe;
+            font-weight: 600;
+        }
+
+        .sidebar-menu li i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* Main area */
+        .main-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            background: #fff;
+            min-width: 0;
+        }
+
+        /* Header */
+        .header {
+            background: #202b36;
+            height: 100px;
+            display: flex;
             align-items: center;
-            text-align: center;
-            cursor: pointer;
-            flex: 0 0 auto;
+            justify-content: space-between;
+            padding: 0 48px 0 36px;
         }
 
-        .book-card img {
+        .search-bar {
+            background: #eef0f2;
+            border-radius: 32px;
+            padding: 8px 24px;
+            display: flex;
+            align-items: center;
+            width: 480px;
+            border: none;
+            outline: none;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            font-size: 18px;
             width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            object-fit: cover;
+            margin-left: 6px;
+            outline: none;
+            color: #222;
         }
 
-        .book-title {
-            font-size: 0.9rem;
+        .user-avatar {
+            display: flex;
+            align-items: center;
+            background: #eef0f2;
+            padding: 8px 22px 8px 12px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .user-avatar i {
+            margin-right: 8px;
+            font-size: 20px;
             color: #333;
         }
 
-        .book-card:hover .book-title {
-            color: #1F2932;
+        /* Sugestões de leitura */
+        .suggestions-area {
+            flex: 1;
+            padding: 36px 56px;
+            background: #fff;
+            overflow-y: auto;
         }
 
-        /* Barra de rolagem customizada (opcional) */
-        .book-list::-webkit-scrollbar {
-            height: 8px;
+        .suggestions-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
         }
 
-        .book-list::-webkit-scrollbar-track {
+        /* Carousel */
+        .carousel-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 44px;
+            margin-bottom: 26px;
+            position: relative;
+        }
+
+        .carousel-book {
+            width: 130px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carousel-book img {
+            width: 112px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.09);
             background: #eee;
         }
 
-        .book-list::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 4px;
+        .carousel-book-title {
+            font-size: 14px;
+            color: #232323;
+            font-weight: 500;
+            margin-bottom: 4px;
+            min-height: 36px;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .topbar {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 1rem;
-            }
+        .carousel-arrow {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f4f4f4;
+            border-radius: 20px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: background 0.18s;
+        }
 
-            .logo-area {
-                margin-bottom: 0.5rem;
-            }
+        .carousel-arrow:hover {
+            background: #ebebeb;
+        }
 
-            .search-bar {
-                margin-bottom: 0.5rem;
-                width: 100%;
-                max-width: unset;
-            }
+        .carousel-arrow.left {
+            left: -46px;
+        }
 
-            .user-info {
-                margin-left: 0;
-            }
+        .carousel-arrow.right {
+            right: -46px;
+        }
 
-            .content-area {
+        @media (max-width: 900px) {
+            .header {
                 flex-direction: column;
+                height: auto;
+                padding: 24px 10px;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .suggestions-area {
+                padding: 24px 12px;
+            }
+
+            .carousel-row {
+                gap: 22px;
             }
 
             .sidebar {
-                width: 100%;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                overflow-x: auto;
+                width: 64px;
             }
 
-            .sidebar nav ul {
-                display: flex;
-                flex-direction: row;
-            }
-
-            .sidebar nav ul li {
-                margin: 0 1rem 0 0;
-            }
-
-            /* Esconder as setas no mobile (opcional) */
-            .arrow-left,
-            .arrow-right {
+            .sidebar-title,
+            .sidebar-menu li span {
                 display: none;
+            }
+
+            .sidebar-menu li i {
+                font-size: 19px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div id="app" class="container">
-
-        <!-- Barra Superior -->
-        <header class="topbar">
-            <!-- Logo -->
-            <div class="logo-area">
-                <div class="logo-icon"></div>
-                <span>JL Library</span>
-            </div>
-            <!-- Campo de Busca -->
-            <div class="search-bar">
-                <div class="search-icon"></div>
-                <input type="text" placeholder="Digite o nome de livro/autor" v-model="busca" @input="fazerBusca" />
-            </div>
-            <!-- Nome do Usuário -->
-            <div class="user-info">
-                {{ nomeUsuario }}
-            </div>
-        </header>
-
-        <!-- Área de Conteúdo (Sidebar + Main) -->
-        <div class="content-area">
+    <div id="app">
+        <div class="container">
             <!-- Sidebar -->
-            <aside class="sidebar">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <div class="menu-icon"></div>
-                                <span>Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="menu-icon"></div>
-                                <span>Acervo</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="menu-icon"></div>
-                                <span>Minhas Notas</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="menu-icon"></div>
-                                <span>Minhas Listas</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
+            <div class="sidebar">
+                <div class="sidebar-logo">
+                    <img src="images/IconeLivro.png" alt="Logo Acervo"
+                        style="width: 90px; height: 90px; border-radius: 16px;">
+                </div>
 
-            <!-- Main Area -->
-            <main class="main-area">
-                <h2>Sugestões De Leitura</h2>
-
-                <!-- Container do Book List + setas de navegação -->
-                <div class="book-wrapper">
-                    <!-- Seta Esquerda -->
-                    <div class="arrow-left" @click="scrollLeft">&#10094;</div>
-                    <!-- Seta Direita -->
-                    <div class="arrow-right" @click="scrollRight">&#10095;</div>
-
-                    <!-- Lista de Livros -->
-                    <div class="book-list" ref="bookList">
-                        <div class="book-card" v-for="(livro, index) in livrosFiltrados" :key="index"
-                            @click="abrirLivro(livro)">
-                            <img :src="livro.capa" :alt="livro.titulo" />
-                            <div class="book-title">{{ livro.titulo }}</div>
-                        </div>
+                <div class="sidebar-title">Acervo</div>
+                <ul class="sidebar-menu">
+                    <li class="active"><i class="fas fa-home"></i> <span>Home</span></li>
+                    <li><i class="fas fa-book"></i> <span>Acervo</span></li>
+                    <li><i class="fas fa-sticky-note"></i> <span>Minhas Notas</span></li>
+                    <li><i class="fas fa-list"></i> <span>Minhas Listas</span></li>
+                </ul>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Header -->
+                <div class="header">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Digite o nome do livro/autor" v-model="search" />
+                    </div>
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                        Nome Do Usuário
                     </div>
                 </div>
-            </main>
+                <!-- Suggestions -->
+                <div class="suggestions-area">
+                    <div class="suggestions-title">Sugestões De Leitura</div>
+                    <!-- Carousel linha 1 -->
+                    <div class="carousel-row">
+                        <span class="carousel-arrow left" v-if="carouselIndex1 > 0" @click="carouselIndex1--"><i
+                                class="fas fa-chevron-left"></i></span>
+                        <div class="carousel-book" v-for="(book, idx) in visibleBooks1" :key="book.title">
+                            <img :src="book.img" :alt="book.title">
+                            <div class="carousel-book-title">{{ book.title }}</div>
+                        </div>
+                        <span class="carousel-arrow right" v-if="carouselIndex1 < booksRow1.length - booksPerRow"
+                            @click="carouselIndex1++"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                    <!-- Carousel linha 2 -->
+                    <div class="carousel-row">
+                        <span class="carousel-arrow left" v-if="carouselIndex2 > 0" @click="carouselIndex2--"><i
+                                class="fas fa-chevron-left"></i></span>
+                        <div class="carousel-book" v-for="(book, idx) in visibleBooks2" :key="book.title">
+                            <img :src="book.img" :alt="book.title">
+                            <div class="carousel-book-title">{{ book.title }}</div>
+                        </div>
+                        <span class="carousel-arrow right" v-if="carouselIndex2 < booksRow2.length - booksPerRow"
+                            @click="carouselIndex2++"><i class="fas fa-chevron-right"></i></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Vue.js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- FontAwesome CDN for icons -->
+    <script src="https://kit.fontawesome.com/ab40c166b7.js" crossorigin="anonymous"></script>
     <script>
-        new Vue({
-            el: '#app',
+        const { createApp } = Vue;
+
+        createApp({
             data() {
                 return {
-                    nomeUsuario: 'Nome do Usuário',
-                    busca: '',
-                    // Ajuste as capas para apontar para seus arquivos locais:
-                    livros: [
-                        {
-                            titulo: 'Java Como Programar',
-                            capa: './images/java_como_programar.jpg'
-                        },
-                        {
-                            titulo: 'Planejamento de Marketing Digital',
-                            capa: './images/marketing_digital.jpg'
-                        },
-                        {
-                            titulo: 'Fórmulas e Funções do Excel',
-                            capa: './images/excel_funcoes.jpg'
-                        },
-                        {
-                            titulo: 'C# Como Programar',
-                            capa: './images/csharp_como_programar.jpg'
-                        },
-                        {
-                            titulo: 'Treinamento Em Linguagem C',
-                            capa: './images/treinamento_c.jpg'
-                        },
-                        {
-                            titulo: 'Administração De Marketing',
-                            capa: './images/admin_marketing.jpg'
-                        },
-                        {
-                            titulo: 'Python Essencial',
-                            capa: './images/python_essencial.jpg'
-                        },
-                        {
-                            titulo: 'Ciência Da Computação',
-                            capa: './images/ciencia_computacao.jpg'
-                        }
-                        // ... e assim por diante
-                    ]
+                    search: "",
+                    booksRow1: [
+                        { title: "Java: Como Programar", img: "images/Java - Como Programar.png" },
+                        { title: "Planejamento De Marketing Digital", img: "images/Planejamento de marketing digital.png" },
+                        { title: "Fórmulas E Funções Com Microsoft Office Excel 2007", img: "images/Fórmulas e Funções com Microsoft Office Excel 2007.png" },
+                        { title: "Administração E Planejamento Estratégico", img: "images/Administração e planejamento estratégico.png" },
+                        { title: "C#: Como Programar", img: "images/Csharp Como Programar.png" },
+                        { title: "Treinamento Em Linguagem C", img: "images/Treinamento em linguagem C.png" },
+                        { title: "Administração De Marketing", img: "images/Administração de Marketing.png" }
+                    ],
+                    booksRow2: [
+                        { title: "Engenharia De Software", img: "images/Engenharia de software.png" },
+                        { title: "Python: Escreva Seus Primeiros Programas", img: "images/Python - escreva seus primeiros programas.png" },
+                        { title: "Cálculo E Aplicações", img: "images/Cálculo e aplicações.png" },
+                        { title: "Practical Java 8: Lambdas, Streams And New Resources", img: "images/Practical java 8 - lambdas, streams and new resources.png" },
+                        { title: "Cálculo Numérico", img: "images/Cálculo numérico.png" },
+                        { title: "História Da Educação Física", img: "images/História da educação física.png" },
+                        { title: "Educação Ambiental E Gestão De Resíduos", img: "images/Educação Ambiental e Gestão de Resíduos.png" }
+                    ],
+                    booksPerRow: 7, // Quantos livros aparecem por vez
+                    carouselIndex1: 0,
+                    carouselIndex2: 0
                 }
             },
             computed: {
-                livrosFiltrados() {
-                    if (!this.busca) return this.livros;
-                    const buscaLower = this.busca.toLowerCase();
-                    return this.livros.filter(l =>
-                        l.titulo.toLowerCase().includes(buscaLower)
-                    );
-                }
-            },
-            methods: {
-                fazerBusca() {
-                    // Lógica extra para busca, se precisar
-                    console.log('Buscando:', this.busca);
+                visibleBooks1() {
+                    return this.booksRow1.slice(this.carouselIndex1, this.carouselIndex1 + this.booksPerRow);
                 },
-                abrirLivro(livro) {
-                    alert(`Abrindo detalhes do livro: ${livro.titulo}`);
-                },
-                scrollLeft() {
-                    // Rola a lista de livros 300px para a esquerda
-                    const container = this.$refs.bookList;
-                    container.scrollBy({ left: -300, behavior: 'smooth' });
-                },
-                scrollRight() {
-                    // Rola 300px para a direita
-                    const container = this.$refs.bookList;
-                    container.scrollBy({ left: 300, behavior: 'smooth' });
+                visibleBooks2() {
+                    return this.booksRow2.slice(this.carouselIndex2, this.carouselIndex2 + this.booksPerRow);
                 }
             }
-        });
+        }).mount("#app");
     </script>
 </body>
 
