@@ -18,8 +18,9 @@
 
         .container {
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
             background: #f4f4f4;
+            width: 100vw;
         }
 
         /* Sidebar */
@@ -44,10 +45,10 @@
             justify-content: center;
         }
 
-        .sidebar-logo svg {
-            width: 54px;
-            height: 54px;
-            color: #fff;
+        .sidebar-logo img {
+            width: 90px;
+            height: 90px;
+            border-radius: 16px;
         }
 
         .sidebar-title {
@@ -92,16 +93,26 @@
             flex-direction: column;
             background: #fff;
             min-width: 0;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* Header */
         .header {
-            background: #202b36;
-            height: 100px;
+            background: #222d36;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 48px 0 36px;
+            padding: 0 58px 0 50px;
+            width: 100%;
+            box-sizing: border-box;
+            position: static !important;
+            /* Garante que não é sticky/fixed */
+            top: auto !important;
+            z-index: 1;
+            position: static !important;
+            top: auto !important;
         }
 
         .search-bar {
@@ -148,6 +159,7 @@
             padding: 36px 56px;
             background: #fff;
             overflow-y: auto;
+            min-height: 0;
         }
 
         .suggestions-title {
@@ -262,10 +274,8 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <div class="sidebar-logo">
-                    <img src="images/IconeLivro.png" alt="Logo Acervo"
-                        style="width: 90px; height: 90px; border-radius: 16px;">
+                    <img src="images/IconeLivro.png" alt="Logo Acervo">
                 </div>
-
                 <div class="sidebar-title">Acervo</div>
                 <ul class="sidebar-menu">
                     <li class="active"><i class="fas fa-home"></i> <span>Home</span></li>
