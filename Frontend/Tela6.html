@@ -314,7 +314,8 @@
                         <span class="carousel-arrow left" v-if="carouselIndex1 > 0" @click="carouselIndex1--"><i
                                 class="fas fa-chevron-left"></i></span>
                         <div class="carousel-book" v-for="(book, idx) in visibleBooks1" :key="book.title">
-                            <a :href="'DetalheLivro.html?titulo=' + encodeURIComponent(book.title)">
+                            <a
+                                :href="book.link ? book.link : 'DetalheLivro.html?titulo=' + encodeURIComponent(book.title)">
                                 <img :src="book.img" :alt="book.title">
                                 <div class="carousel-book-title">{{ book.title }}</div>
                             </a>
@@ -327,7 +328,8 @@
                         <span class="carousel-arrow left" v-if="carouselIndex2 > 0" @click="carouselIndex2--"><i
                                 class="fas fa-chevron-left"></i></span>
                         <div class="carousel-book" v-for="(book, idx) in visibleBooks2" :key="book.title">
-                            <a :href="'DetalheLivro.html?titulo=' + encodeURIComponent(book.title)">
+                            <a
+                                :href="book.link ? book.link : 'DetalheLivro.html?titulo=' + encodeURIComponent(book.title)">
                                 <img :src="book.img" :alt="book.title">
                                 <div class="carousel-book-title">{{ book.title }}</div>
                             </a>
@@ -359,7 +361,7 @@
                         { title: "Administração De Marketing", img: "images/Administração de Marketing.png" }
                     ],
                     booksRow2: [
-                        { title: "Engenharia De Software", img: "images/Engenharia de software.png" },
+                        { title: "Engenharia De Software", img: "images/Engenharia de software.png", link: "Tela7eTela8.html" },
                         { title: "Python: Escreva Seus Primeiros Programas", img: "images/Python - escreva seus primeiros programas.png" },
                         { title: "Cálculo E Aplicações", img: "images/Cálculo e aplicações.png" },
                         { title: "Practical Java 8: Lambdas, Streams And New Resources", img: "images/Practical java 8 - lambdas, streams and new resources.png" },
@@ -367,7 +369,7 @@
                         { title: "História Da Educação Física", img: "images/História da educação física.png" },
                         { title: "Educação Ambiental E Gestão De Resíduos", img: "images/Educação Ambiental e Gestão de Resíduos.png" }
                     ],
-                    booksPerRow: 7, // Quantos livros aparecem por vez
+                    booksPerRow: 7,
                     carouselIndex1: 0,
                     carouselIndex2: 0
                 }
