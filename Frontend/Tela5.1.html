@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Criar Conta</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            /* Torna a imagem de fundo fixa, cobre toda a tela */
+            background: url('images/Papel de Parede.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            /* permite crescer se necessário */
+            height: auto;
+        }
+
+        .left-section {
+            flex: 1.2;
+            position: relative;
+            /* Overlay escuro */
+            min-height: 100vh;
+        }
+
+        .left-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* degrade para a direita */
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0));
+            z-index: 1;
+        }
+
+        .right-section {
+            flex: 1;
+            min-height: 100vh;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-container {
+            width: 440px;
+            max-width: 98vw;
+        }
+
+        .form-container h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+
+        .form-container label {
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+            display: block;
+            margin-top: 1.1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row input {
+            width: 100%;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 0.65rem;
+            margin-bottom: 0.1rem;
+            border: 1px solid #ccc;
+            border-radius: 24px;
+            font-size: 1rem;
+            margin-top: 0.18rem;
+        }
+
+        .input-half {
+            width: 100%;
+        }
+
+        .btn-submit {
+            margin-top: 1.7rem;
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: #222d36;
+            color: #fff;
+            font-size: 1.15rem;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #1a222a;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-check label {
+            font-weight: normal;
+            margin-right: 1.3rem;
+            margin-left: 0.4rem;
+            margin-top: 0;
+        }
+
+        .popup {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.25);
+            padding: 2rem 2.5rem;
+            z-index: 1000;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .popup button {
+            margin-top: 1.3rem;
+            background: #222d36;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .error-message {
+            color: #d70000;
+            font-size: 0.98rem;
+            margin: 0 0 0.5rem 0;
+            padding: 0;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-section,
+            .right-section {
+                min-height: 50vh;
+            }
+
+            .form-container {
+                width: 96vw;
+                max-width: 96vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <!-- Esquerda -->
+        <div class="left-section"></div>
+        <!-- Direita -->
+        <div class="right-section">
+            <div class="form-container">
+                <h1>Criar Nova Conta</h1>
+                <p style="color:#888;font-size:1rem;margin-bottom:1.4rem;">
+                    Já possui uma conta? <a href="Tela1eTela2.html"
+                        style="color:#222d36;text-decoration:underline;font-weight:600;">logar</a>
+                </p>
+                <form @submit.prevent="criarConta">
+                    <div class="form-check">
+                        <label>Tipo de Usuário</label>
+                        <input type="radio" id="usuario" value="Usuario" v-model="tipoUsuario">
+                        <label for="usuario">Usuário</label>
+                        <input type="radio" id="bibliotecario" value="Bibliotecario" v-model="tipoUsuario">
+                        <label for="bibliotecario">Bibliotecário</label>
+                    </div>
+                    <div class="form-row">
+                        <input class="input-half" type="text" placeholder="Nome" v-model="nome">
+                        <input class="input-half" type="text" placeholder="Sobrenome" v-model="sobrenome">
+                    </div>
+                    <label for="nascimento">Data de nascimento</label>
+                    <input type="text" id="nascimento" placeholder="DD/MM/AAAA" v-model="nascimento">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" placeholder="(xx) x xxxx-xxxx" v-model="telefone">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="Digite seu e-mail" v-model="email">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Criar senha" v-model="senha">
+                    <span style="color:#888;font-size:0.93rem;margin-bottom:0.4rem;display:block;">
+                        Deve ter pelo menos 6 caracteres
+                    </span>
+                    <label for="confirmarSenha">Confirmar senha</label>
+                    <input type="password" id="confirmarSenha" placeholder="Criar senha" v-model="confirmarSenha">
+
+                    <div class="error-message" v-if="erroMsg">{{ erroMsg }}</div>
+                    <button class="btn-submit" type="submit">Criar Conta</button>
+                </form>
+            </div>
+            <!-- Pop-up de sucesso -->
+            <div v-if="showPopup" class="popup">
+                Conta criada com sucesso!<br>
+                <button @click="fecharPopup">OK</button>
+            </div>
+        </div>
+    </div>
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    tipoUsuario: "",
+                    nome: "",
+                    sobrenome: "",
+                    nascimento: "",
+                    telefone: "",
+                    email: "",
+                    senha: "",
+                    confirmarSenha: "",
+                    showPopup: false,
+                    erroMsg: ""
+                };
+            },
+            methods: {
+                criarConta() {
+                    this.erroMsg = "";
+                    // Validação básica
+                    if (!this.tipoUsuario) {
+                        this.erroMsg = "Selecione o tipo de usuário.";
+                        return;
+                    }
+                    if (!this.nome.trim() || !this.sobrenome.trim()) {
+                        this.erroMsg = "Preencha nome e sobrenome.";
+                        return;
+                    }
+                    if (!this.nascimento.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+                        this.erroMsg = "Informe a data de nascimento no formato DD/MM/AAAA.";
+                        return;
+                    }
+                    if (!this.telefone.match(/^\d{11}$/)) {
+                        this.erroMsg = "Informe o telefone no formato xxxxxxxxxxx.";
+                        return;
+                    }
+                    if (!this.email.match(/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/)) {
+                        this.erroMsg = "Digite um e-mail válido.";
+                        return;
+                    }
+                    if (!this.senha || this.senha.length < 6) {
+                        this.erroMsg = "A senha deve ter pelo menos 6 caracteres.";
+                        return;
+                    }
+                    if (this.senha !== this.confirmarSenha) {
+                        this.erroMsg = "As senhas não conferem.";
+                        return;
+                    }
+                    // Se passou em tudo:
+                    this.showPopup = true;
+                },
+                fecharPopup() {
+                    this.showPopup = false;
+                    window.location.href = "Tela1eTela2.html";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
